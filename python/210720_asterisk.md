@@ -4,10 +4,7 @@
 
 가변 인자
 
-
-
 ```python
-#개꿀문법
 #끼워넣기
 a = ['h', 'i']
 
@@ -16,7 +13,16 @@ c= ['b', 'y', 'e']
 print(a + c)
 print([*a, 'w', *c])
 
-#개꿀 2
+
+[출력]
+['h', 'i', 'b', 'y', 'e']
+['h', 'i', 'w', 'b', 'y', 'e']
+```
+
+
+
+```python
+#
 listall = list(range(10))
 lista = listall[:5]
 listb = listall[5:]
@@ -27,6 +33,12 @@ print(listb)
 new_list = [*listb, *lista]
 print(new_list)
 
+
+[출력]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[0, 1, 2, 3, 4]
+[5, 6, 7, 8, 9]
+[5, 6, 7, 8, 9, 0, 1, 2, 3, 4]
 
 ```
 
