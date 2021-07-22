@@ -367,8 +367,9 @@ print(*objects, sep' ', end='\n', files=sys.stdout, flush=False)
 - 가변 인자 리스트
 
   ```python
+  
   ```
-
+  
   
 
 
@@ -643,13 +644,11 @@ def func1():
 
 # 재귀 함수
 
-자기 자신을 호출하는 함수
-
-
-
 
 
 ### 팩토리얼
+
+[예시]
 
 ```python
 # 반복
@@ -663,15 +662,28 @@ def fact(n):
 print(fact(3)) #6
 
 # 재귀
-# 왜 오류나지...
 def factorial(n):
-	if n == 1:
+    if n == 1:
         return n
     else:
         return n * factorial(n-1)
-
-print(factorial(4))
+    
+print(factorial(5))
 ```
+
+- 두 코드 모두 원리는 같습니다!
+
+1. 반복문 코드
+   - n이 1보다 큰 경우 반복문을 돌며, n은 1씩 감소합니다.
+   - 마지막에 n이 1이면 더 이상 반복문을 돌지 않습니다.
+2. 재귀 함수 코드
+   - 재귀 함수를 호출하며, n은 1씩 감소합니다.
+   - 마지막에 n이 1이면 더 이상 추가 함수를 호출하지 않습니다.
+
+- 재귀함수는 기본적으로 같은 문제이지만 점점 범위가 줄어드는 문제
+- 재귀함수를 작성시에는 **반드시, `base case`가 존재 하여야 함**
+- `**base case`:** 점점 범위가 줄어들어 반복되지 않는 최종적으로 도달하는 곳
+- 재귀를 이용한 팩토리얼 계산에서의 base case는 **n이 1일때, 함수가 아닌 정수 반환하는 것**
 
 
 
@@ -692,7 +704,42 @@ def fib(n):
 
 print(fib(4))
 
-#반복
+# 반복문
+def fib_loop(n):
+    if n < 2:
+        return n
+    
+    result = [0, 1]
+    for i in range(2, n+1): # list에 0의 값이 포함되어 있기 때문에 자리를 차지해서 +1만큼 계산을 더함.
+        result.append(result[i-1] + result[i-2])
+        # result.append(result[len(result)-1] + result[len(result)-2])
+    return result[-1] # list 의 마지막 값 출력
+
+
+# 반복문 2)
+#이 코드는 잠시만 보여주자. 중점은 list에 다 차곡 차곡 쌓을 필요가 없다는 것
+def fib_loop_2(n):
+    if n < 2: 
+        return n
+    
+    a, b = 0, 1
+    # 우리가 0번째 값 a 와 첫 번째 값 b 를 계속 반복하면서 원하는 값을 만들텐데, 
+    # n 이 2일 때는 단 한 번(n-1)만 계산하면 원하는 값을 만들 수 있기 때문
+    for i in range(n-1):
+        a, b = b, a+b # 새로 만든 b 에 이전의 a, b 값을 더해 새로운 피보나치 값을 만들어 나간다.
+    return b
+
+
+# while 문을 이용한 피보나치 (https://www.python.org/)
+# Fibonacci series up to n
+def fib_while(n):
+    a, b = 0, 1
+    while a < n:
+        print(a, end=' ')
+        a, b = b, a+b
+    return b
+    
+fib_while(30)
 ```
 
 

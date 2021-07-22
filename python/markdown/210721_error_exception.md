@@ -114,7 +114,7 @@ except ValueError: 			#이게 위로 가야함!!
 
 ### 예외 처리 종합
 
-- try
+- try : 코드를 실행함
 
 - except : try문에서 예외가 발생시 실행함
 
@@ -139,6 +139,35 @@ except ValueError: 			#이게 위로 가야함!!
 
     ![image-20210721154151470](210721_error_exception.assets/image-20210721154151470.png)
 
+```python
+def my_func(a):
+    try:
+        result = int(a)
+        return result
+    except:
+        return False
+    finally:                #finally 무조건 실행되기 때문에 3.5 나온 다음에 False 출력됨... ㅎ..
+        print(a)
+
+print(my_func('3.5'))
+
+"""
+위에서부터 순차적으로 실행된다고 했는데, finally 부분이 먼저 출력되는 게 어떻게 되는 건지 다시 한 번 설명해 주실 수 있나요?
+"""
+
+def my_func2(a):
+    try:
+        result = int(a)
+        return result
+    except:
+        return False
+    print(a)
+
+print(my_func2('3.5'))
+```
+
+
+
 - as 키워드를 활용하여 원본 에러 메세지를 사용할 수 있음.
 
   하하하하하하하
@@ -159,7 +188,8 @@ except ValueError: 			#이게 위로 가야함!!
 
 ### assert
 
-- 무조건 AssertionError가 발생
+- 무조건 AssertionError가 발생 (TDD: test driven developer 할 때 씀)
+- $DDD: Deadline driven developer$
 - 디버깅 용도로 사용
 - 파이썬에서 실행 : -O 옵션으로 실행하는 경우, assert문과 `__deburg__` 
 
