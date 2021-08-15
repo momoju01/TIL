@@ -14,4 +14,8 @@ for tc in range(1, T+1):
         if maxV < count:
             maxV = count   # count값 maxV에 업데이트 하고 i+1로
 
-    print(f'#{tc} {maxV}')
+    print(f'#{tc}', end=' ')
+
+    for a in arr:
+        print(f'{a}', end=' ' )
+    print()

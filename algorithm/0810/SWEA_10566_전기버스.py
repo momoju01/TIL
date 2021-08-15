@@ -17,7 +17,7 @@ for tc in range(1, T+1):
 
         if bus_pos >= N:  # 종료 조건 설정
             break
-        for i in range(bus_pos, bus_pos-K-1, -1):  # 버스 위치에서 백스탭으로 정거장 있는지 확인
+        for i in range(bus_pos, bus_pos-K, -1):  # 버스 위치에서 백스탭으로 정거장 있는지 확인
             if bus_stop[i]:  # 충전소 있다면 버스 위치 옮김
                 count += 1
                 bus_pos = i
