@@ -1,108 +1,41 @@
-# 첫 번째 방법
-
-for _ in range(1, 11):
-    tc = int(input())
-    N = 100
-    arr = [list(input()) for _ in range(N)]
-    res = 1
-
-    for M in range(100, 0, -1):  # 회문의 길이 후보
-        if res != 1:
-            break
-        # 행
-        for i in range(N):
-            if res != 1:
-                break
-            for j in range(N - M + 1):
-                temp = 0
-                for k in range(M // 2):
-                    if arr[i][j+k] == arr[i][j+M-k-1]:
-                        temp += 1
-                if temp == M //2:   # 같은 단어의 수가 단어의 절반 길이와 같은지 확인
-                    res = M
-                    break
-                # 열
-                temp = 0
-                for k in range(M // 2):
-                    if arr[j + k][i] == arr[j + M - k - 1][i]:
-                        temp += 1
-                if temp == M // 2:
-                    res = M
-
-    print(f'#{tc} {res}')
-
-
-
-# 요약하지 않은 버젼
-
-for _ in range(1, 11):
-    tc = int(input())
-    N = 100
-    arr = [list(input()) for _ in range(N)]
-    res = 1
-
-    for M in range(100, 0, -1):  # 회문의 길이 후보
-        if res != 1:
-            break
-        # 행
-        for i in range(N):
-            if res != 1:
-                break
-            for j in range(N - M + 1):
-                temp = 0
-                for k in range(M // 2):
-                    if arr[i][j+k] == arr[i][j+M-k-1]:
-                        temp += 1
-                if temp == M //2:   # 같은 단어의 수가 단어의 절반 길이와 같은지 확인
-                    res = M
-
-        # 열
-        for i in range(N):  # i 가 열
-            for j in range(N - M + 1):
-                temp = 0
-                for k in range(M // 2):
-                    if arr[j + k][i] == arr[j + M - k - 1][i]:
-                        temp += 1
-                if temp == M // 2:
-                    res = M
-
-    print(f'#{tc} {res}')
-
-
-# 두 번째 풀이
-# 회문인지 확인하는 함수
-def palindrome(word, m):
-    for i in range(m // 2):
-        if word[i] != word[-1 - i]:
+def palindrome(s):
+    cnt = 0  # 앞-뒤 일치하는 문자열의 갯수
+    for i in range(len(s) // 2):
+        if s[i] == s[-i - 1]:  # 앞에서 시작하는 문자열과 뒤에서 시작하는 문자열이 일치하면
+            cnt += 1
+        else:  # 중간에 다른 글자들이 존재하면
             return False
-    return True
+    if cnt == len(s) // 2:
+        return True
+    return False
 
 
-for _ in range(1, 11):
+def get_answer(n):
+    # 최대 n에서 1씩 감소하는 최대 회문길이 m
+    for m in range(n, 1, -1):
+        for i in range(n):  # 회문을 시작하는 row idx
+            for j in range(n - m + 1):  # i번째 row에서, j부터 m 길이만큼 연속하는 회문 찾기
+                # row 기준 arr에서 m길이의 회문을 발견하면
+                if palindrome(arr[i][j:j + m]) == True:
+                    return m  # 해당 회문 길이 m이 최대이므로 반환
+                # col 기준 arr2에서 m길이의 회문을 발견하면
+                elif palindrome(arr2[i][j:j + m]) == True:
+                    return m
+    return 1  # 못 찾으면 길이는 1짜리
+
+
+N = 100
+T = 10
+for _ in range(1, T + 1):
     tc = int(input())
-    n = 100
-    words = []
-    for _ in range(n): # 가로를 분석하기 위한 words
-        words.append(input())
-    # 통으로 받으려면 이렇게 하면 됨 : arr = [input() for _ in range(N)]
+    # N, M = map(int, input().split())    # 전체 N * N 크기에서 길이가 M인 회문
+    arr = [input() for _ in range(N)]
+    # create row <-> col arr2
+    arr2 = [[''] * N for _ in range(N)]
+    for a in range(N):
+        for b in range(N):
+            arr2[a][b] = arr[b][a]
 
-    words_h = [''.join(i) for i in zip(*words)]  # 세로를 쉽게 분석하기 위한 words_h
+    answer = get_answer(N)
 
-    res = 1
-    flag = False
-
-    # 효율을 위해 큰 값에서 작은값으로 진행
-    for m in range(100, 1, -1):
-        for i in range(n):
-            for j in range(n - m + 1):
-                # 가로 또는 세로에 회문이 있다면, 저장 후 for문 종료
-                if palindrome(words[i][j:j + m], m) or palindrome(words_h[i][j:j + m], m):
-                    res, flag = m, True
-                    break
-            if flag:
-                break
-        if flag:
-            break
-
-    print(f'#{tc} {res}')
-
+    print(f'#{tc} {answer}')
