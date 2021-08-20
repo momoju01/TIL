@@ -26,6 +26,7 @@ for i in range(N-M + 1):
     flag = 1
     for j in range(M//2):
         if str1[i + j] != str[i + M -1-j]:
+
             flag = 0  # i에서 시작하는 구간은 회문이 아님
             break
     if flag == 1:  # i에서 시작하는 회문
