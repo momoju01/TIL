@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 ckass="text-center">Detail</h1>
+  <p>제목: {{ article.title }}</p>
+  <p>내용: {{ article.content }}</p>
+  <p>작성 시각: {{ article.created_at}}</p>
+  <p>수정 시각: {{ article.updated_at }}</p>
+  <a href="{% url 'articles:detail' article.pk %}">[상세글 보러가기]</a>
+  <hr>
+  <a href="{% url 'articles:edit' article.pk%}" class="btn btn-primarty">EDIT</a> <br>
+  <form action="{%url 'articles:delete' article.pk %}" method="POST">
+  {% csrf_token %}
+  <button class="btn btn-danger">DELETE</button>
+  </form>
+
+  <a href="{% url 'articles:index'%}">[메인 페이지로 이동]</a>
+{% endblock content %}
+
+
+
