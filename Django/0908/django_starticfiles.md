@@ -472,28 +472,46 @@ STATICFILES_DIRS = [
 
 ## 4. Image Resizing
 
-### 4.1 이미지 크기 변경하기
+- django-imagekit 라이브러리 활용
+  1. `$ pip install django-imagekit`
+  2. `$ pip freeze > requirements.txt`
+  3. settings.py 의 INSTALLED_APP에 `imagekit` 추가
 
 
 
-
-
-
-
-원본 빼고 썸네일만 저장하는 방법 위주로 (교재)
+- 원본 이미지를 재가공하여 저장(원본x 썸네일o) : Processed 안에 있는 것은 migrate다시 해줄 필요 없이 즉각 반영됨.
 
 ```python
 # models.py
+from imagekit.models import ProcessedImageField
+from imagekit.models import Thumbnail
+
+class Article(models.Model):
 	...
-    image = models.ImageField(upload_to='origins/', blank=True)
-    image_thumbnail = ImageSpecField(
-        source = 'image',
-        processors=[ResizeToFill(100,50)],
-        options={'quality': 90},
-    )
+    image_thum = ProcessedImageField(
+        blank=True,
+        upload_to='thumbnails/',
+        processors=[ResizeToFill(100, 50)],
+        format='JPEG',
+        options={'quality':60},
+        ) 
 ```
 
 
+
+- 원본(o) 썸네일(o)
+
+```python
+    
+    image = models.ImageField(upload_to='origins/', blank=True)
+    image_thumbnail = ImageSpecField(
+        source = 'image',  # 원본 이미지 필드 명
+        processors=[ResizeToFill(100,50)],
+        options={'quality': 90},
+    )  
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+```
 
 
 

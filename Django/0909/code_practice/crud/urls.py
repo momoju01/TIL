@@ -24,6 +24,6 @@ urlpatterns = [
     path('articles/', include('articles.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# settings.MEDIA_URL  : media file의 url을 의미
-# DOCUMENT_ROOT : 실제 해당 미디어 파일은 어디에 있는지
-# 이 때 document_root 는 키워드 인지로 Media file이 위치한 경로로 이동합니다.
+# settings.MEDIA_URL : media file public URL을 의미
+# document_root: 실제 해당 미디어 파일은 어디에 있는지 / 
+# 이때 document_root는 키워드인자로 Media File이 위치한 경로로 전달합니다.

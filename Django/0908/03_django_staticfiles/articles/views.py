@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
+from django.contrib import messages
 from .models import Article
 from .forms import ArticleForm
 
@@ -20,6 +21,9 @@ def create(request):
         form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
             article = form.save()
+            # add_message
+            messages.add_message(request, messages.INFO, '게시글 잘 잘성됨!' )
+            
             return redirect('articles:detail', article.pk)
     else:
         form = ArticleForm()
@@ -42,6 +46,8 @@ def detail(request, pk):
 def delete(request, pk):
     article = get_object_or_404(Article, pk=pk)
     article.delete()
+    # messages.add_message(request, messages.ERROR, '게시글이 삭제되었습니다!')
+    messages.error(request, '게시글이 삭제되었습니다.')
     return redirect('articles:index')
 
 
@@ -52,6 +58,8 @@ def update(request, pk):
         form = ArticleForm(request.POST, instance=article, files=request.FILES) # files 안 쓰려면 두 번째에
         if form.is_valid():
             form.save()
+            # messages.add_message(request, messages.WARNING, '게시글이 ㅜ정되었습니다!')
+            messages.warning(request, '게시글이 수정되었습니다.')
             return redirect('articles:detail', article.pk)
     else:
         form = ArticleForm(instance=article)

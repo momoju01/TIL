@@ -20,10 +20,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('articles/', include('articles.urls')),
+    path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# settings.MEDIA_URL  : media file의 url을 의미
-# DOCUMENT_ROOT : 실제 해당 미디어 파일은 어디에 있는지
-# 이 때 document_root 는 키워드 인지로 Media file이 위치한 경로로 이동합니다.

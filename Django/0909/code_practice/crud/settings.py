@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a-=&%z-d@4%x34zns!!w(ksz9y3ov@!-y4b17c4e8x=z#0_)n0'
+SECRET_KEY = 'django-insecure-3_$i3_q40nvm^@)r-n+#7#6(h@8&ccvni3qm*6xtnnhx_o1bjv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,9 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'articles',
+    'articles', # 'articles.apps.ArticlesConfig'랑 같음
     'imagekit',
     'django_cleanup',
+    # 'django_cleanup.apps.CleanupConfig', # django_cleanup이랑 같음
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'crud.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates',],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,9 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Seoul'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -121,16 +122,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
-
-# user
-MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+STATICFILES_DIRS = [ BASE_DIR / 'static',]
+
+# 미디어 파일(사용자가 업로드한 이미지 파일) 사용 방법
+# 1. settings.py에 MEDIA_ROOT, MEDIA_URL 설정
+# 2. 프로젝트 폴더의 urls.py에서 경로 설정
+# 2. upload_to 속성을 정의하여 업로드 된 파일에 사용할 MEDIA_ROOT의 하위 경로 지정(upload_to는 optional이기 때문에 생략 가능)
+# 3. 업로드 된 파일의 상대 URL은 django가 제공하는 url 속성을 이용해서 사용(article.image.url)
+
+MEDIA_ROOT = BASE_DIR / 'media' # MEDIA_ROOT랑 STATIC_URL 다른 경로여야 함
+# Media 파일을 저장할 폴더
+
+MEDIA_URL = '/media/' # MEDIA_URL도 STATIC_URL이랑 경로가 달라야함
+# Django는 성능을위해서 이미지를 DB에 저장하지 않고, 경로만 저장
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
