@@ -214,10 +214,10 @@ STATICFILES_DIRS = [
        
        def articles_image_path(instance, filename):  # 두 개의 인자
            # MEDIA_ROOT/user_<pk>/ 경로로 <filename> 이름으로 업로드
-           return f'user_{instance.user.pk}/{filename}' 
+           return f'user_{instance.instance.pk}/{filename}' # pk는 None값 나올 수 있음
        
        class Article(models.Model):
-           image = models.ImageField(upload_to=articles_image_path)
+           image = models.ImageField(upload_to=articles_image_path, blank)
        ```
 
     - 반드시 2개의 인자를 사용함
@@ -376,7 +376,6 @@ STATICFILES_DIRS = [
    - 파일/이미지 업로드시 반드시 사용(전송되는 데이터 형식 지정)
    - < input type="file" >을 사용할 경우 사용
 
-2.  
 
 
 
@@ -439,11 +438,47 @@ STATICFILES_DIRS = [
 
 ### 3.4 이미지 업로드(UPDATE)
 
+```html
+<!--update.html-->
+	...
+    <form action="{% url 'articles:update' article.pk %}" method="POST" enctype="multipart/form-data">
+```
+
+```python
+# views.py
+	if request.method == 'POST':
+        form = ArticleForm(request.POST, instance=article, files=request.FILES) 
+        # files 안 쓰려면 두 번째에
+```
+
+- detail 페이지를 출력하지 못하는 문제 해결 (image가 없는 게시글의 경우 출력할 이미지 없기 때문)
+
+  -> if문으로 작성해주기
+
+```html
+<!--detail.html-->
+
+{% if article.image %}
+    <img src="{{ article.image_thumbnail.url }}" alt="{{ article.image_thumbnail }}">
+  {% else %}
+	<!--경로는 바깥 static임 -->
+    <img src="{% static 'images/default.jpg' %}" alt="default image">
+  {% endif %} 
+```
+
 
 
 
 
 ## 4. Image Resizing
+
+### 4.1 이미지 크기 변경하기
+
+
+
+
+
+
 
 원본 빼고 썸네일만 저장하는 방법 위주로 (교재)
 
