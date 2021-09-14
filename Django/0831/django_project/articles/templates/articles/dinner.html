@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% comment %} 
+default 주석
+{% endcomment %}
+<!--HTML 주석-->
+
+  <h1>오늘 저녁은 {{ pick }}야!</h1>
+  <p>{{ no|default:'nothing' }}</p>
+  <ul>
+      {% for food in foods %}
+          <li>{{ food|upper }}</li>
+      {% endfor %}
+  </ul>
+
+  <p>{{ foods|join:", "}}</p>
