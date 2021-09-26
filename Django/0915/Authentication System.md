@@ -1,5 +1,7 @@
 [TOC]
 
+
+
 # Authentication System I
 
 ## 1. Django Authentication System
@@ -12,6 +14,8 @@
 OAuth : 카카오톡 로그인 등 
 
 [참고]: https://d2.naver.com/helloworld/24942	"참고"
+
+
 
 
 
@@ -170,6 +174,8 @@ Session을 create하는 로직과 같음
 
 
 
+
+
 ## 4. Authentication data in templates
 
 - 현재 로그인 되어 있는 유저 정보 출력
@@ -183,8 +189,6 @@ Session을 create하는 로직과 같음
   ```
 
   
-
-
 
 - context processors
 
@@ -209,7 +213,10 @@ Session을 create하는 로직과 같음
   ]
   ```
 
-  
+
+
+
+
 
 
 
@@ -303,6 +310,16 @@ user를 delete하는 것 아님. session을 delete하는 것
     {% endif %}
     ...
   ```
+
+  
+
+  
+
+  
+
+  
+
+  
 
   
 
@@ -406,6 +423,12 @@ user를 delete하는 것 아님. session을 delete하는 것
 
 
 
+
+
+
+
+
+
 - 두 데코레이터로 인해 발생하는 구조적 문제와 해결
 
   1. 비로그인 상태에서 게시글 삭제 시도
@@ -504,19 +527,27 @@ user를 delete하는 것 아님. session을 delete하는 것
   ...
   ```
 
-  2. 회원가입 후 자동으로 로그인 진행하기
+  
 
+  
+  
+  
+  
+  
+  
+  2. 회원가입 후 자동으로 로그인 진행하기
+  
   ```python
           if form.is_valid():
               user = form.save()
               auth_login(request, user)
               return redirect('articles:index')
   ```
-
+  
   <img src="Authentication System.assets/image-20210916065025478.png" alt="image-20210916065025478" style="zoom:80%;" />
-
+  
   3. 회원가입 링크 작성
-
+  
   ```html
   <!-- base.html-->
   
@@ -525,8 +556,37 @@ user를 delete하는 것 아님. session을 delete하는 것
         <a href="{% url 'accounts:signup' %}">Signup</a>
       {% endif %}
   ```
-
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -563,6 +623,38 @@ def delete(request):
       </form>
 	{% else %}
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -668,7 +760,7 @@ def delete(request):
       return render(request, 'accounts/update.html', context)
   ```
 
-  ![image-20210916073318102](Authentication System.assets/image-20210916073318102.png)
+  <img src="Authentication System.assets/image-20210916073318102.png" alt="image-20210916073318102" style="zoom:67%;" />
 
 
 

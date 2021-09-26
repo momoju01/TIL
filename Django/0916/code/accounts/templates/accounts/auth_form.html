@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% block content %}
+
+  {% if  request.resolver_match.url_name == 'signup' %}
+    <h1>SIGNUP</h1>
+  {% elif request.resolver_match.url_name == 'login' %}
+    <h1>LOGIN</h1>
+  {% elif request.resolver_match.url_name == 'update' %}
+    <h1>UPDATE</h1>
+  {% else %}
+    <h1>CHAGNE PASSWORD</h1>
+  {% endif %}
+
+
+  <h1>Update</h1>
+  <form action="{% url 'accounts:update' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit">
+  </form>
+{% endblock content %}
