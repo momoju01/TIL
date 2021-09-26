@@ -13,10 +13,10 @@
   <p>수정시각 : {{ review.updated_at }}</p>
   <hr>
   <a href="{% url 'community:update' review.pk %}">[UPDATE]</a>
-  {% comment %} <form action="{% url 'community:delete' review.pk %}" method="POST">
+  <form action="{% url 'community:delete' review.pk %}" method="POST">
     {% csrf_token %}
     <button>DELETE</button>
-  </form> {% endcomment %}
+  </form>
 
 
   <a href="{% url 'community:index' %}">[back]</a>

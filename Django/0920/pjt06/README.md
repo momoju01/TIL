@@ -4,7 +4,7 @@
 
 
 
-
+## 1. community
 
 ### base.html 에서의 url mapping 
 `include('accounts.urls')` : appname 'accounts'의 urls.py로 mapping
@@ -238,6 +238,41 @@ def update(request, pk):
     return render(request, 'community/update.html', context)
 
 ```
+
+
+
+
+
+
+
+## 2. accounts
+
+### views.login
+
+
+
+
+
+### views.logout
+
+- views.logout (**vl**)
+
+```python
+# views.py
+from django.contrib.auth import logout as auth_logout
+
+def logout(request):
+    auth_logout(request)
+    return redirect('community:index')
+```
+
+
+
+
+
+
+
+
 
 
 

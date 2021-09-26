@@ -38,6 +38,10 @@ def detail(request, pk):
     }
     return render(request, 'community/detail.html', context)
         
+
+
+
+        
 # @login_required
 @require_http_methods(['GET', 'POST'])
 def update(request, pk):
@@ -55,4 +59,13 @@ def update(request, pk):
         'form':form,
     }
     return render(request, 'community/update.html', context)
+
+#@login_required 안씀!
+@require_POST
+def delete(request, pk):
+    if request.user.is_authenticated:
+        review = get_object_or_404(Review, pk=pk)
+        review.delete()
+    return redirect('community:index')
+
 
