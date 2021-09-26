@@ -10,7 +10,7 @@ from django.views.decorators.http import require_POST, require_http_methods
 
 @require_http_methods(['GET', 'POST'])
 def login(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated:  # 로그인 사용자에 대한 접근 제한
         return redirect('community:index')
     if request.method == "POST":
         form = AuthenticationForm(request, request.POST)
