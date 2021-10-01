@@ -75,7 +75,7 @@ for tc in range(1, T + 1):
     #             f1 += 1
     #         elif f1 and f3 == 0 and big_code[n][m] == '0':  # 10
     #             f2 += 1
-    #         elif f1 and f2 and big_code[n][m] == '1':  # 101
+    #         elif f1 and f2 and big_code[n][m] == '1':  # 1001
     #             f3 += 1
     #         elif f3 and big_code[n][m] == '0':
     #             mul = min(f1, f2, f3)
