@@ -35,4 +35,4 @@ for tc in range(1, T+1):
         for j in range(1, N-1):  # 맨 바깥쪽은 돌 필요 x
             si, sj = i, j  # 시작 인덱스
             tmp.append(arr[i][j])
-            dfs
+            dfs()
