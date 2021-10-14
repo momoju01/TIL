@@ -50,6 +50,9 @@ def prim1(r, V):
         for v in range(V+1):
             if MST[v] == 0 and adjM[u][v] > 0:
                 key[v] = min(key[v], adjM[u][v])  # u를 통해 MST에 포함되는 비용과 기존의 비용 비교하고 갱신
+                # 최종적으로 key에는 MST에 연결되기 위한 비용들 저장됨
+                # 남아있는 게 최소 비용 되면 갱신할 필요 없음
+
     return sum(key)       # MST 가중치의 합
 
 
