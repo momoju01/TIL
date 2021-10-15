@@ -62,7 +62,7 @@ def prim():
             if not visited[i] and key[i] < minV:
                 minI = i
                 minV = key[i]
-                
+
         visited[minI] = 1  # 뽑았따
         # 갱신할 수 있으면 전부 갱신
         for i in range(V+1):
@@ -85,3 +85,6 @@ for tc in range(1, T+1):
         adjM[n1][n2] = adjM[n2][n1] = w
 
     print(f'{tc} {prim()}')
+
+
+
