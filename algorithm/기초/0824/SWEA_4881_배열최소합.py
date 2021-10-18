@@ -5,6 +5,8 @@ def f(i, N, s):    # i: 고려할 원소 s:고려한 구간의 합
     if i == N:  # 배열 벗어난 경우(완료한 경우)
         if min_sum > s:
             min_sum = s
+    elif min_sum <= s:  # 가지치기, 부분합이 중간에 이미 최솟값을 넘기면 종료
+        return
     else:
         for j in range(i, N):
             P[i], P[j] = P[j], P[i]
@@ -21,3 +23,4 @@ for tc in range(1, T+1):
     P = list(range(N))
     f(0, N, 0)
     print(f'#{tc} {min_sum}')
+
