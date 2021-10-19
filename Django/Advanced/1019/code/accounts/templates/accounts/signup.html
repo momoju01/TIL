@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Sign up</h2>
+  
+  <form action="" method="POST">  {% comment %}  빈 종이 보내준 곳으로 보냄 {% endcomment %}
+    {% csrf_token %}
+    {{ form.as_p }}  {% comment %} views.py에서 form으로 context 보내서 쓸 수 있는 것임 {% endcomment %}
+    <button>Signup!</button>
+  </form>
+{% endblock content %}
+
