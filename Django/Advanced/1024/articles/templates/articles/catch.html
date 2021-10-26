@@ -2,5 +2,5 @@
 {% block content %}
   <h1>Catch</h1>
   <h2>여기서 {{ message_c }}을 받았어!!</h2>
-  <a href="/throw/">다시 던지러</a>
+  <a href="{% url 'articles:throw' %}">다시 던지러</a>
 {% endblock content %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Throw</h1>
-<form action="/catch/" method="#">
+<form action="{% url 'articles:catch' %}" method="#">
   <label for="message1">Throw</label>
   <input type="text" id="message1" name="message_t">
   <input type="submit">
