@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .finish {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <h1>오늘 할 일 !!</h1>
+  <form action="">
+    <input type="text">
+    <button>Add</button>
+  </form>
+  <ul>
+
+  </ul>
+  <!-- JS 작성 -->
+  <script>
+    // 1. input 선택해서 데이터 가져오자
+    // 그냥 이렇게 쓰면 페이지 로딩과 함께 실행이 되어버림
+    // 특정 조건일 때 실행하게 위치시켜야 함
+    // const input = document.querySelector('input')
+    // console.log(input.value)
+    // 그래서 이벤트 리스너를 이용해 클릭할 때 데이터를 가져와보자.
+    
+    // class 명에 클래스 이름 추가하는 함수
+    function addClassName(event) {
+      console.log(event)  // li 정보가 들어있음
+      // 선택된 target에 대한 data
+      // if (event.target.classList.length == 0) {
+      //   event.target.classList.add('finish')
+      // } else {
+      //   event.target.classList.remove('finish')
+      // }
+
+      // 쉬운 방법
+      event.target.classList.toggle('finish')
+    }
+
+    // 할 일 추가 함수
+    function addTodo(event) {
+      event.preventDefault()
+      // console.log(event)
+      // 인풋 값을 겟 
+      const input = document.querySelector('input')
+
+      // 얻은 값을 리스트로 등록하자
+      const li = document.createElement('li')
+      li.innerText =input.value
+      
+      // 가로줄을 넣기 위해 이벤트 리스너를 달아보자!!
+      li.addEventListener('click', addClassName)
+
+      // ul 태그에 li를 등록하자
+      const ul = document.querySelector('ul')
+      ul.appendChild(li)
+      
+      // 각각 리스트마다 x 버튼 추가 (삭제)
+      const delBtn = document.createElement('button')
+      delBtn.innerText = 'x'
+
+      // delBtn 누르면 삭제되는 동작
+      delBtn.addEventListener('click', function () {
+        li.remove()
+      })
+      li.appendChild(delBtn)
+
+      // input의 흔적 지워주기
+      input.value = ''
+      // event.target.reset()
+    }
+    // 버튼에 이벤트 리스너를 붙이자
+    const btn = document.querySelector('button')
+    btn.addEventListener('click', addTodo)
+
+  </script>
+</body>
+</html>
