@@ -105,3 +105,17 @@ console.log(inProgress)
  
  주어진 users 배열을 통해 모든 유저의 상태가 submmited인지 여부를 확인하세요.
 */
+
+const users = [
+  { username: 'woong', submitted: true},
+  { username: 'sung', submitted: true},
+  { username: 'yong', submitted: false},
+]
+
+const hasSubmitted = users.every((user) => {
+  return user.submitted
+})
+console.log(hasSubmitted)
+
+
+
