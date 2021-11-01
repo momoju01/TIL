@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+</head>
+<body>
+  <form action="#">
+    <input type="text">
+    <button>Add</button>
+  </form>
+  <ul>
+
+  </ul>
+
+  <!-- JS 작성-->
+  <script>
+    const form = document.querySelector('form')
+
+    // CREATE
+    const addTodo = function (event) {
+      event.preventDefault()
+      console.log(event)
+      const input = document.querySelector('input')
+      const content = input.value
+      
+      if (content.trim()) {
+        const liTag = document.createElement('li')
+        liTag.innerText = content
+
+        const ulTag = document.querySelector('ul')
+        ulTag.appendChild(liTag)
+      } else {
+        alert('할일을 입려해주세요')
+      }
+      event.target.reset()
+    }
+    form.addEventListener('submit', addTodo)
+  </script>
+</body>
+</html>

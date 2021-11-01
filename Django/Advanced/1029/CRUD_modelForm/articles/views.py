@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import Article
-
+from .forms import ArticleForm
 
 # Create your views here.
 def index(request):
@@ -15,29 +15,23 @@ def index(request):
     }
     return render(request, 'articles/index.html', context)
 
-def new(request):
-    return render(request, 'articles/new.html')
 
 def create(request):
-    # new로부터 title과 content 받아서 저장
-    title = request.POST.get('title')
-    content = request.POST.get('content')
-    
-    # 데이터 저장하는 방법
-    # # 1.
-    # article = Article()
-    # article.title = title
-    # article.content = content
-    # article.save()
+    # 이전 create (작성)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            article = form.save()
+            return redirect('articles:detail', article.pk)
+    # 이전 new (조회)
+    else:
+        form = ArticleForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'articles/create.html', context)
 
-    # # 3
-    # Article.objects.create(title=title, content=content)
-    
-    # 2
-    article = Article(title=title, content=content)
-    article.save()
 
-    return redirect('articles:detail', article.pk)
 
 def detail(request, pk):
     article = Article.objects.get(pk=pk)
@@ -67,3 +61,29 @@ def update(request, pk):
     article.content = request.POST.get('content')
     article.save()
     return redirect('articles:detail', article.pk)
+
+
+
+
+""" 이전 
+def new(request):
+    form = ArticleForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'articles/new.html', context)
+
+def create(request):
+    ## 1. Form쓸때
+    # title = request.POST.get('title')
+    # content = request.POST.get('content')
+    # article = Article(title=title, content=content)
+    # article.save()
+
+    ## 2. ModelForm 쓸 때
+    form = ArticleForm(request.POST)
+    if form.is_valid():
+        article = form.save()
+        return redirect('articles:detail', article.pk)
+    return redirect('articles:new')
+"""

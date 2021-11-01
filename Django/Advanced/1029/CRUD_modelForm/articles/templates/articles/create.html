@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% comment %} views.py new함수 없어지면서 new에서 create로 이름 바꿈!! {% endcomment %}
+
+{% block content %}
+  <h1>CREATE</h1>
+  <form action="" method="POST">  {% comment %} create함수 구조 post와 get으로 바뀐 후 액션값 없어도 동작 ! {% url 'articles:create' %} {% endcomment %}
+    {% csrf_token %}
+
+    {{ form.as_p }}
+    <input type="submit">
+  </form>
+  <a href="{% url 'articles:index' %}">[back]</a>
+{% endblock content %}
+
+
+
+{% comment %}
+예전에 ModelForm 쓰기 전 쓰던 애들... form.as_p로 바뀜! 
+<label for="title">Title : </label>
+<input type="text" name="title"><br>
+<label for="content">Content : </label>
+<textarea name="content" cols="30" rows="5"></textarea><br> {% endcomment %}
