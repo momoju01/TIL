@@ -1,0 +1,90 @@
+<!-- todo 기본 + status + 완료된 할 일 지우기  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .completed {
+      text-decoration: line-through;
+      color: grey;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <select v-model="status">
+      <option value="all">전체</option>
+      <option value="inProgress">진행 중</option>
+      <option value="completed">완료</option>
+
+    </select>
+
+    <input v-model="content" @keyup.enter="addTodo" type="text">
+    <button @click="addTodo">+</button>
+
+    <br>
+    <ul>
+      <li v-for="todo in todoListByStatus" :key="todo.date">
+        <input type="checkbox" :checked="todo.completed" @click="toggleTodo(todo)">
+        <span :class="{ completed: todo.completed }">{{todo.content}}</span>
+      </li>
+    </ul>
+
+    <button @click="deleteCompleted">완료된 할 일 지우기</button>
+
+  </div>
+
+
+  <!-- vue.js -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- Lodash -->
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        content:'',
+        todoList: [],
+        status: 'all'  // default 값 
+      },
+      methods: {
+        addTodo: function () {
+          const todo = {
+            content: this.content, //할 일
+            completed: false,  // 완료 여부
+            date: new Date().getTime(), // pk로 활용
+          }
+          this.todoList.push(todo)
+          this.content = ''  // 초기화
+        },
+        toggleTodo: function (todo) {
+          todo.completed = !todo.completed
+        },
+        deleteCompleted: function () {
+          this.todoList = this.todoList.filter(todo => !todo.completed )
+        },
+      },
+      computed: {
+        todoListByStatus: function () {
+          return this.todoList.filter(todo => {
+            if (this.status === 'inProgress') {
+              return !todo.completed
+            }
+            if (this.status === 'completed') {
+              return todo.completed
+            }
+            return true
+          })
+        }
+      },
+    
+    })
+
+
+  </script>
+</body>
+</html>

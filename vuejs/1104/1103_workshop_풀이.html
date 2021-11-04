@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <h2>점심메뉴</h2>
+    <button @click="pickOne">Pick one</button>
+    <p>{{ choice }}</p>
+    <hr>
+
+    <h2>로또</h2>
+    <button @click="getLuckyNums">getLuckyNums</button>
+    <p>{{ luckyNums }}</p>
+  </div>
+
+
+  <!-- vue.js -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- Lodash -->
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            lunch: ['국밥', '짜장면', '햄버거'],
+            choice: '',
+            luckyNums: [],
+        },
+        methods: {
+          pickOne: function () {
+            // const randomIdx = _.random(0, this.lunch.length - 1)
+            // this.choice = this.lunch[randomIdx]
+
+            // or 
+            this.choice = _.sample(this.lunch)
+          },
+          getLuckyNums: function () {
+            
+            // this.luckyNums = [] // 배열 초기화
+            // while (this.luckyNums.length < 6) { // 배열의 길이가 6이 될때까지 로또 번호 뽑기 
+            //     const luckyNum = _.random(1, 45) // 1~45중 숫자 랜덤으로 1개 저장
+            //     if (!this.luckyNums.includes(luckyNum)){ // 로또 숫자 리스트에 새로 뽑은 랜덤 숫자가 없다면
+            //         this.luckyNums.push(luckyNum) // 로또 숫자 리스트에 새로 뽑은 랜덤 숫자 추가
+            //     }
+            // }
+
+            // or
+            const nums = _.range(1, 46)    
+            this.luckyNums = _.sampleSize(nums, 6)
+
+          }
+        }
+      })
+  </script>
+
+</body>
+</html>
