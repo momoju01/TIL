@@ -15,6 +15,7 @@
   <div id="app">
     <h1>Cat Image</h1>
     <img v-if="imgSrc" :src="imgSrc" alt="cat img">
+    <br>
     <button @click="getImg">Get Cat</button>
   </div>
   
@@ -30,9 +31,11 @@
       methods: {
         getImg: function() {
           axios.get(API_URL)
-            .then(response => {
-              console.log(response.data)
-              this.imgSrc = response.data.url
+            .then(response => {  //arrow함수로 써야함
+              // console.log(response)
+              // console.log(response.data[0])
+              // console.log(response.data[0].url)
+              this.imgSrc = response.data[0].url
             })
             .catch((error) => console.log(error))
         },
