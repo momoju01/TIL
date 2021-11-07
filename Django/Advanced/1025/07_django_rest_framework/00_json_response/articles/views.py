@@ -13,13 +13,13 @@ def article_html(request):
         'articles': articles,
     }
     return render(request, 'articles/article.html', context)
-
+ 
 # 2. JsonResponse
 # from django.http.response import JsonResponse
 def article_json_1(request):
     articles = Article.objects.all()
     articles_json = []
-
+ 
     for article in articles:
         articles_json.append(
             {
