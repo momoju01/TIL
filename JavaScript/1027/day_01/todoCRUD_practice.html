@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .finish {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <h1>Todo List</h1>
+  <form action="">
+    <input type="text">
+    <button>Add</button>
+  </form>
+  <ul>
+
+  </ul>
+  <!-- js 작성 -->
+  <script>
+    // input을 선택해서 가져오기: eventListener 통해서
+
+    // 할 일 추가
+    function addTodo(event) {
+      // 기본(추가) 기능
+      event.preventDefault()
+      console.log(event)
+      const input = document.querySelector('input')
+      const liTag = document.createElement('li')
+      liTag.innerText = input.value
+      const ulTag = document.querySelector('ul')
+      ulTag.appendChild(liTag)
+
+      // 완료 기능
+      liTag.addEventListener('click', function(event) {
+        console.log(event)
+        event.target.classList.toggle('finish')
+      })
+
+      // 삭제 버튼
+      const delBtn = document.createElement('button')
+      delBtn.innerText = 'x'
+      delBtn.addEventListener('click', function() {
+        liTag.remove()
+      })
+      liTag.appendChild(delBtn)  // x 버튼 만들고 기능 만든 다음 추가..^^
+
+      // input에 있는 값 버튼 누르면 리셋
+      input.value = ''
+    }
+
+    // btn click 발생시 addTodo 실행
+    const btn = document.querySelector('button')
+    btn.addEventListener('click', addTodo)
+
+
+  </script>
+</body>
+</html>
