@@ -46,12 +46,12 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # django cors
-    'corsheaders',
+    # 'corsheaders',
 ]
 
 MIDDLEWARE = [
     # django cors middleware setting
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,8 +69,8 @@ MIDDLEWARE = [
 # ]
 
 # 모든 Origin 허용
-# CORS_ORIGIN_ALLOW_ALL = True 없는데 되넹
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ORIGIN_ALLOW_ALL = True
+
 
 ROOT_URLCONF = 'server.urls'
 
@@ -141,24 +141,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# 추가하기
-AUTH_USER_MODEL = 'accounts.User'
-
-import datetime
-
-JWT_AUTH = {
-    #token의 만료기간이 5분 => 1일로 연장
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1)
-}
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        # 'rest_framework.permissions.IsAuthenticated', # 인증된(로그인한) 사용자가 요청했는지 확인
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # JWT 토큰이 올바른(유효한)지 확인
-        # 'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
-    ),
-}

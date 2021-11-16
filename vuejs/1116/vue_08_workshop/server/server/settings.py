@@ -35,6 +35,9 @@ INSTALLED_APPS = [
     'todos',
     'accounts',
 
+    # django cors
+    'corsheaders',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,8 +48,6 @@ INSTALLED_APPS = [
     # drf 
     'rest_framework',
 
-    # django cors
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +70,7 @@ MIDDLEWARE = [
 # ]
 
 # 모든 Origin 허용
-# CORS_ORIGIN_ALLOW_ALL = True 없는데 되넹
+# CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'server.urls'
