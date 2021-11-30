@@ -16,12 +16,12 @@ class Patient(models.Model):
         return f'{self.pk}번 환자 {self.name}'
 
 
-class Reservation(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+# class Reservation(models.Model):
+#     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+#     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f'{self.doctor_id}번 의사의 {self.patient_id}번 환자'
+#     def __str__(self):
+#         return f'{self.doctor_id}번 의사의 {self.patient_id}번 환자'
 
 
 patient1 = Patient.objects.get(pk=1)
