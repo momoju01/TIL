@@ -117,3 +117,17 @@ def likes(request, article_pk):
             article.like_users.add(request.user)
         return redirect('articles:index')
     return redirect('accounts:login')
+
+def likes(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    
+    # 현재 좋아요를 요청하는 회원(request.user)이
+    # 해당 게시글의 좋아요를 누른 회원 목록에 이미 있다면,
+    if article.like_users.filter(pk=request.user.pk).exists():
+    # request.user in article.like_users.all():
+    # 좋아요 취소
+        article.like_users.remove(request.user)    
+    # 좋아요 누름
+    else:
+        article.like_users.add(request.user)
+    return redirect()

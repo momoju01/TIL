@@ -105,7 +105,7 @@ def profile(request, username):
         'person': person,
     }
     return render(request, 'accounts/profile.html', context)
-
+ 
 
 @require_POST
 def follow(request, user_pk):
