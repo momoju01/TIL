@@ -99,7 +99,7 @@
     nav.setAttribute('class', 'box-container')
     header.setAttribute('class', 'box-container')
     section.setAttribute('class', 'box-container')
-
+    
     // 테두리 설정
     const inputTags = document.querySelectorAll('section div')
     inputTags.forEach(function (div) {
@@ -109,23 +109,24 @@
     // 버튼 변경
     const myButton = document.querySelector('form > input')
     myButton.setAttribute('class', 'button')
+    
 
     // 이미지 사이즈
     const myImg = document.querySelector('nav > a > img')
     myImg.width = '600'
 
     // footer
-    const myFooter = document.createElement('footer')
+    const myFooter = document.createElement('footer') // tag 생성
     myFooter.innerText = 'google 설문지를 통해 비밀번호를 제출하지 마시오.'
     
     const parent = document.querySelector('body')
     parent.appendChild(myFooter)
-    myFooter.setAttribute('class', 'box-container')
+    myFooter.setAttribute('class', 'box-container') //가운데 정렬
 
     // input 요소 스타일링
     const myInput = document.querySelector('#name')
     myInput.style.marginTop = '50px'
-
+    
   </script>
 </body>
 </html>
