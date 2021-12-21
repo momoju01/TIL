@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form action="#">
+    <input type="text">
+    <button>Add</button>
+  </form>
+  <ul>
+    
+  </ul>
+
+  <script>
+  // 1. li tag 만들기
+  const form = document.querySelector('form')
+  
+  function addTodo (event) {
+    event.preventDefault()
+
+    const input = document.querySelector('input')
+    const content = input.value
+
+    if (content.trim()) {
+      const li = document.createElement('li')
+      li.innerText = content
+      
+      // 2. ul tag 선택 후 li append
+      const ul = document.querySelector('ul')
+      ul.appendChild(li)
+      
+    } else {
+      alert('할 일을 입력하세요')
+    }
+    event.target.reset()
+  }
+  
+  form.addEventListener('submit', addTodo)
+
+</script>
+</body>
+</html>
