@@ -4,9 +4,10 @@
       <!-- <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> -->
       <router-link :to="{ name: 'Home' }">Home</router-link> |
-      <router-link :to="{ name: 'About' }">About</router-link>
+      <router-link :to="{ name: 'About' }">About</router-link> |
+      <router-link :to="{ name: 'TheLotto', params: { lottoNum: 6} }">TheLotto</router-link>
     </div>
-    <router-view/>
+    <router-view/>  
   </div>
 </template>
 
