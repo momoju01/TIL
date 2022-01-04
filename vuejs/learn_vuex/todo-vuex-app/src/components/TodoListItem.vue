@@ -1,10 +1,17 @@
 <template>
-  <div>Todo</div>
+  <div>
+    {{ todo.title }}
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'TodoListItem'
+  name: 'TodoListItem',
+  props: {
+    todo: {
+      type: Object,
+    }
+  }
 }
 </script>
 
