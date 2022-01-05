@@ -275,6 +275,118 @@ wss.on("connection", (socket) => {
 나를 제외한 사람에게 메시지 보내기
 => framework 사용하기~
 
+#### 전체 코드
+#### frontend
+```
+const messageList = document.querySelector("ul");
+const nickForm = document.querySelector("#nick");
+const messageForm = document.querySelector("#message");
+const socket = new WebSocket(`ws://${window.location.host}`);  // socket은 서버로의 연결을 뜻함
+
+function makeMessage(type, payload) {
+  const msg = {type, payload}
+  return JSON.stringify(msg);
+}
+
+socket.addEventListener("open", () => {
+  console.log("Connected to Server ✅");
+});
+
+socket.addEventListener("message", (message) => {
+  const li = document.createElement("li");
+  li.innerText = message.data;
+  messageList.append(li);
+});
+
+socket.addEventListener("close", () => {
+  console.log("Disconnected from Server ❌");
+});
+
+// ⭐메세지 보내기
+// setTimeout(() => {
+//   socket.send("hello from the browser!");
+// }, 10000);
+
+function handleSubmit(event) {
+  event.preventDefault();
+  const input = messageForm.querySelector("input");
+  socket.send(makeMessage("new_message", input.value));
+  input.value = "";
+}
+
+function handleNickSubmit(event) {
+  event.preventDefault();
+  const input = nickForm.querySelector("input");
+  socket.send(makeMessage("nickname", input.value));
+  input.value = "";
+}
+messageForm.addEventListener("submit", handleSubmit);
+nickForm.addEventListener("submit", handleNickSubmit);
+```
+
+#### backend
+```JS
+import http from "http";
+import WebSocket from "ws";
+import express from "express";
+
+const app = express();
+
+app.set("view engine", "pug");
+app.set("views", __dirname + "/views");
+app.use("/public", express.static(__dirname + "/public"));
+app.get("/", (req, res) => res.render("home"));
+app.get("/*", (req, res) => res.redirect("/"));
+
+const handleListen = () => console.log(`Listening on http://localhost:3000`)
+// app.listen(3000);
+
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+const sockets = [];
+
+wss.on("connection", (socket) => { 
+  sockets.push(socket); // 연결된 browser별 socket을 sockets에 넣어줌
+  socket["nickname"] = "Anon"; // 익명
+  console.log("Connected to Browser ✅");
+  socket.on("close", () => console.log("Disconnected from the Browser ❌"));  
+  socket.on("message", (msg) => {
+    const message = JSON.parse(msg);
+    switch(message.type){
+      case "new_message":
+        sockets.forEach((aSocket) => aSocket.send(`${socket.nickname}: ${message.payload}`));      
+      case "nickname":
+        socket["nickname"] = message.payload;
+    }
+  });
+});
+server.listen(3000, handleListen);
+```
+
+#### html(pug)
+```JS
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Noom
+    link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+  body
+    header
+      h1 Noom
+    main
+      form#nick
+        input(type="text", placeholder="choose a nickname", required)
+        button Save
+      ul
+      form#message
+        input(type="text", placeholder="write a msg", required)
+        button Send
+    script(src="/public/js/app.js")
+```
 
 
 
