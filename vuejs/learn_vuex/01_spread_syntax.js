@@ -17,6 +17,7 @@ const myUpdateTodo = {
 console.log(myUpdateTodo)
 
 // 2. 두 번째 방법
+// 반드시 iterable 한 객체여야함!
 const myUpdateTodo2 = {
   ...todoItem,
   isCompleted: true,

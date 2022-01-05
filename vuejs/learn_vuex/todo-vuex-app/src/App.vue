@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <h1>Todo List</h1>
+    <h2>완료된 todo 개수: {{ completedTodosCount }}</h2>
     <todo-list></todo-list>
     <todo-form></todo-form>
   </div>
@@ -16,6 +17,11 @@ export default {
   components: {
     TodoList,
     TodoForm,
+  },
+  computed: {
+    completedTodosCount: function () {
+      return this.$store.getters.completedTodosCount
+    }
   }
 }
 </script>
