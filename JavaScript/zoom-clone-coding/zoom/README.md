@@ -1,19 +1,29 @@
+
+
+
+
+
+
 # Noom
 
 Zoom Clone using NodeJS, WebRTC and Websockets.
 
 
+
+
 ## INTRODUCTION
 
 ### Setup
-#### nodemon.json
+**nodemon.json**
+
 ```json
   "exec": "babel-node src/server.js"
 ```
   변경사항이 있을 시 서버를 재시작해주는 프로그램
   서버 재시작하는 대신 babel-node 실행하게 되는데 babel-node는 우리가 작성한 코드를 일반 NodeJS 코드로 컴파일 해주는데 그 작업을 src/server.js 파일에 해줌
 
-#### server.js
+**server.js**
+
   ```JS
   // server.js
     import express from "express";
@@ -36,11 +46,13 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 ## 1. CHAT WITH WEBSOCKETS
 
 ### HTTP vs WebSocket
-#### Http 
+**Http** 
+
 - 유저가 request 보내면 server가 response로 반응
 - **stateless** : backend가 유저를 기억하지 못함. 오직 request 받을 때만 답장(response)
 
-#### WebSocket
+**WebSocket**
+
 - protocol
 - wss://nomadcoders.co
 - webSocket 연결이 일어날 때는 악수(handshake)처럼 작동함
@@ -50,10 +62,14 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 - real-time으로 소통하는 2 개의 서버 사이에서도 작동함. webSocket은 브라우저와 backend 사이에서만 발생할 수 있는 게 아님.
 
 
+
+
 ### WebSockets in Node.js
 - a NodeJS WebSocket library
 - protocol > implementation : 규칙을 따르는 코드
-#### backend
+
+**backend**
+
 ```js
 // server.js
 import http from "http";
@@ -70,11 +86,15 @@ server.listen(3000, handleListen);
 - () 안에 꼭 뭐 안 넣어도 됨. 이렇게 하는 경우 http와 ws 둘 다 돌릴 수 있음
 
 
+
+
 ### WebSocket Events
 ws 사용해서 backend와 frontend 사이에 첫 번째 connection 만들기
 frontend에서 브라우저가 이미 webSocket 클라이언트에 대한 implementation을 갖고 있음을 알아두기
 webSocket을 이용해 backend와 연결하고 싶다면 JS가 해줄 것
-#### backend
+
+**backend**
+
 ```JS
 function handleConnection(socket) {
   console.log(socket); // socket 은 연결된 브라우저를 뜻함
@@ -87,14 +107,18 @@ wss.on("connection", (socket) => {
 })
 ```
 
-#### frontend
+**frontend**
+
 ```JS
 const socket = new WebSocket(`ws://${window.location.host}`)  // socket은 서버로의 연결을 뜻함
 ```
 
+ 
 
 ### WebSocket Message
-#### backend
+
+**backend**
+
 - wws 라는 web socket server 만듦
 - .on으로 event listen하고 있음. 브라우저마다 연결된 socket에서 이벤트 listen가능.
 - socket.on : 특정 socket에 eventlistener 등록한 것. wss(서버)에 등록한 것이 아님
@@ -112,7 +136,8 @@ wss.on("connection", (socket) => {
 })
 ```
 
-#### frontend
+**frontend**
+
 ```JS
 // backend와 connection 열어주고 있음
 const socket = new WebSocket(`ws://${window.location.host}`)  // socket은 서버로의 연결을 뜻함
@@ -137,9 +162,12 @@ setTimeout(() => {
 
 ```
 
+
+
 ### Chat completed
-#### front end
-- 
+
+**frontend**
+
 ```JS
 const messageList = document.querySelector("ul");
 const messageForm = document.querySelector("form");
@@ -155,7 +183,8 @@ function handleSubmit(event) {
 messageForm.addEventListener("submit", handleSubmit);
 ```
 
-#### pug
+**pug**
+
 ```pug
     main 
       ul
@@ -164,7 +193,8 @@ messageForm.addEventListener("submit", handleSubmit);
         button Send
 ```
 
-#### backend
+**backend**
+
 - socket.send(message.toString('utf-8')); // front로 message 보냄
 - 하지만 chrome에서 보내면 chrome 밖에 응답 안 함. firefox에서도 응답하게 하려면?
 - sockets라는 fake db 생성후 연결된 browser별 socket을 sockets에 push
@@ -182,8 +212,11 @@ wss.on("connection", (socket) => {
 ```
 
 
+
 ### Nicknames - part.1
-#### frontend
+
+**frontend**
+
 - li tag 만들고 그 안에 message 넣어서 messageList에 append하기
 ```JS
 socket.addEventListener("message", (message) => {
@@ -210,7 +243,7 @@ function handleNickSubmit(event) {
 messageForm.addEventListener("submit", handleSubmit);
 nickForm.addEventListener("submit", handleNickSubmit);
 ```
-```pug
+```html
     main
       form#nick
         input(type="text", placeholder="choose a nickname", required)
@@ -245,12 +278,16 @@ function handleNickSubmit(event) {
 ```
 
 
+
 ### Nicknames - part.2
+
 - Object를 backend로 보내면 안되는 이유:
   backend가 javascript인지 다른 programming 언어인지 알 수 없기 때문. 그래서 string으로 보낸 후 backend 에서 받아서 그 데이터로 무엇을 할지 결정해야 함
   `const wss = new WebSocket.Server({ server });` WebSocket이 브라우저에 있는 API이기 때문. 
 - 우리는 backend에서 javascript 를 사용하므로, backend가 받은 string을 다시 object 로 변경해야 함.
-#### backend
+
+**backend**
+
 - `JSON.parse()`사용하여 string을 object로 변경.
 - if / else if 대신 siwtch() / case 사용 (개인 선호도..)
 - 닉네임 안 입력한 경우, 익명으로 글 작성할 수 있도록 socket에 nickname 저장
@@ -271,12 +308,17 @@ wss.on("connection", (socket) => {
 });
 ```
 
+
+
 ### Conclusion
+
 나를 제외한 사람에게 메시지 보내기
 => framework 사용하기~
 
-#### 전체 코드
-#### frontend
+**전체 코드**
+
+**frontend**
+
 ```
 const messageList = document.querySelector("ul");
 const nickForm = document.querySelector("#nick");
@@ -324,7 +366,8 @@ messageForm.addEventListener("submit", handleSubmit);
 nickForm.addEventListener("submit", handleNickSubmit);
 ```
 
-#### backend
+**backend**
+
 ```JS
 import http from "http";
 import WebSocket from "ws";
@@ -364,7 +407,8 @@ wss.on("connection", (socket) => {
 server.listen(3000, handleListen);
 ```
 
-#### html(pug)
+**html(pug)**
+
 ```JS
 doctype html
 html(lang="en")
@@ -392,3 +436,280 @@ html(lang="en")
 
 
 
+## 2. SOCKETIO
+
+### Socket.IO vs webSockets
+- Socket.IO는 프론트와 백앤드 간 실시간 통신을 가능하게 해주는 프레임워크 또는 라이브러리
+- 실시간/ 양방향/ event 기반 통신 
+- websocket 보다 탄력성 있음: websocket이 동작하지 않으면 다른 방법으로 동작함
+- 신뢰성과 빠른 속도 제공 : websocket보다는 살짝 무거움
+
+
+
+
+### Installing socket IO
+
+**backend**
+
+- `$npm i socket.io`
+- `import SocketIO from "socket.io";`
+- http://localhost:3000/socket.io/socket.io.js 로 연결
+
+- 서버에 socketIO 설치한 것처럼 client에도 socketIO 설치해야함. (socket IO는 webSocket의 부가 기능이 아님)
+- 이전에는 브라우저가 주는 WebSocket API 이용하면 되었음. 하지만 webSocket API는 socket IO와 호환 안 됨.(socket IO가 더 많은 기능이 있기 때문)
+
+**frontend**
+
+- socket IO 설치
+```pug
+    main
+    
+    script(src="/socket.io/socket.io.js")
+    script(src="/public/js/app.js") 
+```
+- http://localhost:3000 으로 연결 후 console창에 io 치면 function 나옴
+- io() : 자동적으로 backend socket-io와 연결해주는 function
+- frontend 전부 삭제하고 아래만 입력하고 새로고침 하면 터미널에 Socket 뜸 (이전에는 webSocket이었음)
+- 이미 sockets: 가 적용됨 (이전에는 우리가 만들어주었음)
+```JS
+const socket = io();
+```
+
+
+
+### SocketIO is Amazing
+
+**pug**
+
+```pug
+
+```
+**frontend**
+
+- `socket.emit("room", { payload: input.value });`
+1. client는 어떤 event든 emit 해줄 수 있음. 이름 상관 x
+2. 전송할 때 아무거나 전송할 수 있음. 이전엔 only text (numbers, Object, etx.. )
+3. 원하는 만큼 backend로 전송 가능
+```JS
+const socket = io();
+
+const welcome = document.getElementById("welcome");
+const form = welcome.querySelector("form");
+
+
+function handleRoomSubmit(event) {
+  event.preventDefault();
+  const input = form.querySelector("input")
+  socket.emit("enter_room", { payload: input.value }, ); // 이전에는 message만 보냄
+  input.value = "";
+}
+form.addEventListener("submit", handleRoomSubmit);
+```
+
+**backend**
+
+1. custom event를 암거나 써도 됨 ! message 아니어도 됨.
+2. frontend에서 object를 전송할 수 있음. 결과 : { payload: 'nicoroom' }
+3. 여러개 받을 수 있음
+```JS
+wsServer.on("connection", socket => {
+  socket.on("enter_room", (msg) => console.log(msg));
+})
+```
+- **callback 함수 사용할수 있음!!!!** 
+  
+  **frontend**
+  
+  - 3번째 인자로 callback 함수 보내면
+  ```JS
+  socket.emit("enter_room", { payload: input.value }, () => {
+    console.log("server is done!");
+  });
+  ```
+  **backend**
+  
+  - 전달 받은 함수를 done이라는 이름으로 하고 실행시키면 frontend에서 실행됨
+  ```JS
+  wsServer.on("connection", socket => {
+    socket.on("enter_room", (msg, done) => {
+      console.log(msg);
+      setTimeout(() => {
+        done();
+      }, 10000);
+    });
+  })
+  ```
+
+
+
+  ### recap
+
+**backendDone() 함수**
+
+  - FrontEnd에서 실행된 코드는 BackEnd가 실행시킨 것
+  - 보통 http는 사람들이 request를 보내면 loading 후 http에 대한 결과를 보여줌. 이렇게 하면 오래 걸릴 수 있음.
+  - 그런데 여기서는 backend를 실행시키는 코드를 만들 수 있음. 
+  - backend에서 이 function에 argument를 보낼 수 있다는 것. (msg)
+  - **다만 emit의 마지막 argument가 function이어야 함!!**
+
+**frontend**
+
+  ```JS  
+  function backendDone(msg) {
+    //console.log("backend done");
+    console.log(`The backend says: `, msg);
+  }
+
+  function handleRoomSubmit(event) {
+    event.preventDefault();
+    const input = form.querySelector("input")
+    socket.emit("enter_room", input.value, backendDone); 
+    input.value = "";
+  }
+  form.addEventListener("submit", handleRoomSubmit);
+  ```
+**backend**
+
+  ```JS
+  wsServer.on("connection", socket => {
+    socket.on("enter_room", (roomName, done) => {
+      console.log(roomName);
+      setTimeout(() => {
+        // done();
+        done("hello from the backend");
+      }, 5000);
+    });
+  })
+  ```
+
+
+
+### Rooms
+방에 참가하기
+
+**backend**
+
+`socket.join(roomName)`
+```JS
+wsServer.on("connection", socket => {
+  socket.onAny((event) => {
+    console.log(`Socket Event: ${event}`)
+  });
+  socket.on("enter_room", (roomName, done) => {
+    socket.join(roomName);
+    done(); // frontend에서 보낸 showRoom 함수가 done에 들어옴
+  });
+})
+```
+**frontend**
+
+```JS
+const room = document.getElementById("room");
+
+room.hidden = true;
+
+let roomName;
+
+function showRoom() {
+  welcome.hidden = true;
+  room.hidden = false;
+  const h3 = room.querySelector("h3");
+  h3.innerText = `Room ${roomName}`;
+}
+function handleRoomSubmit(event) {
+  //(...)
+  socket.emit("enter_room", input.value, showRoom);
+  roomName = input.value;
+  //(...)
+}
+```
+**pug**
+
+```pug
+      div#room
+        h3
+        ul
+        form
+          input(placeholder="message", required, type="text")
+          button Send
+```
+
+
+
+### Room Message
+
+방 안의 모든 사람들에게 메시지 보내기
+
+**backend**
+
+```JS
+wsServer.on("connection", socket => {
+  //(...)
+  socket.on("enter_room", (roomName, done) => {
+    //(...)
+    socket.to(roomName).emit("welcome"); // "welcome" event를 roomName에 있는 모든 사람들에게 emit하기
+  });
+})
+```
+**frontend**
+
+```JS
+function addMessage(message) {
+  const ul = room.querySelector("ul");
+  const li = document.createElement("li");
+  li.innerText = message;
+  ul.appendChild(li);
+}
+
+socket.on("welcome", () => {  
+  addMessage("someone joined");
+})
+```
+
+
+
+### Room Notifications
+
+**backend**
+```JS
+wsServer.on("connection", socket => {
+  //(...)
+  socket.on("disconnecting", () => {
+    socket.rooms.forEach(room => socket.to(room).emit("bye"));
+  });
+  socket.on("new_message", (msg, room, done) => {
+    socket.to(room).emit("new_message", msg);
+    done();
+  })
+})
+```
+
+**frontend**
+```JS
+// html에 message 추가하는 함수
+function addMessage(message) {
+  const ul = room.querySelector("ul");
+  const li = document.createElement("li");
+  li.innerText = message;
+  ul.appendChild(li);
+}
+
+// submit한 message를 backend에 보내는 함수 ("new_message")
+function handleMessageSubmit(event) {
+  event.preventDefault();
+  const input = room.querySelector("input");
+  const value = input.value;
+  socket.emit("new_message", value, roomName, () => {
+    addMessage(`You: ${value}`);
+  });
+  input.value = "";
+}
+
+// backend에서 보낸 것 frontend에서 실행
+socket.on("bye", () => {  
+  addMessage("someone left ㅠㅠ");
+});
+socket.on("new_message", (msg)=> {
+  addMessage(msg);
+});
+```
