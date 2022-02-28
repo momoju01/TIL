@@ -645,3 +645,304 @@ select 함수
 </script>
 
 ```
+
+
+# PROPS
+
+## 4.0 Props
+
+버튼 만든다고 가정.
+
+**컴포넌트** : 어떤 JSX를 반환하는 함수
+
+똑같은 버튼인데 안쪽 text 만 다른 경우, 굳이 반복할 필요 없음
+
+```react
+  <script type="text/babel">
+    function SaveBtn() {
+      return <button style={{
+        backgroundColor: "tomato",
+        color:"white",
+        padding:"10px 20px",
+        border: 0,
+        borderRadius: 10,
+      }}>Save Changes</button>;
+    }
+    function ConfimrBtn() {
+      return <button style={{
+        backgroundColor: "tomato",
+        color:"white",
+        padding:"10px 20px",
+        border: 0,
+        borderRadius: 10,
+      }}>Confirm</button>;
+    }
+    function App() {
+      return (
+        <div>
+          <SaveBtn />
+          <ConfimrBtn />
+        </div>
+      );
+    } 
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root)
+  </script>
+```
+
+
+
+### Button 컴포넌트 내부 text props
+
+모든 컴포넌트는 () 괄호로 argument(인자) 를 받는다는 것. 첫 번째 argument의 이름은 마음대로 지어줄 수 있는데, 사람들은 이 인자 이름을 props라고 부름. Btn으로부터 전달받는 properties인 것.
+
+`<Btn banana="Save Changes"/>`으로 써 주면 Btn 함수의 첫 번째 argument로 {banana:"Save Changes"} 가 들어감. `Btn({banana:"Save Changes"})`
+
+console을 찍어보면 object가 나옴.
+
+```react
+  <script type="text/babel">
+    function Btn(props) {
+      console.log(props)
+      return <button style={{
+        backgroundColor: "tomato",
+        color:"white",
+        padding:"10px 20px",
+        border: 0,
+        borderRadius: 10,
+      }}>{props.banana}</button>;
+    }
+    function App() {
+      return (
+        <div>
+          <Btn banana="Save Changes"/>
+          <Btn banana="Continue"/>
+        </div>
+      );
+    } 
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root)
+  </script>
+```
+
+- **Shortcut** : props가 object이기 때문에 banana를 object에서 꺼낼 수 있음
+
+  1. props -> { banana }
+  2. { props.banana } -> { banana }
+
+  ```react
+      function Btn({ banana }) {
+        return <button style={{
+          backgroundColor: "tomato",
+          color:"white",
+          padding:"10px 20px",
+          border: 0,
+          borderRadius: 10,
+        }}>{banana}</button>
+      }
+
+  ```
+
+- 다른 것 props 가능: big으로 넘겨주고, big일때 fontSize를 지정할 수 있음
+
+  ```react
+    <script type="text/babel">
+      function Btn({ text, big }) {
+        console.log(big)
+        return <button style={{
+          backgroundColor: "tomato",
+          color:"white",
+          padding:"10px 20px",
+          border: 0,
+          borderRadius: 10,
+          fontSize: big ? 18: 14,
+        }}>{text}</button>;
+      }
+      function App() {
+        return (
+          <div>
+            <Btn text="Save Changes" big={true}/>
+            <Btn text="Continue"/>
+          </div>
+        );
+      } 
+      const root = document.getElementById("root");
+      ReactDOM.render(<App />, root)
+    </script>
+  ```
+
+
+
+## 4.1 Memo(참고)
+
+props에 뭘 넣어줄 수 있는지 보기
+
+- string, boolean, function, 
+
+
+
+### 부모의 상태를 바꾸는 함수 만들기
+
+Btn안의 html tag 안에 onClick을 넣으면 그게 이벤트 리스너이고, Btn 컴포넌트의 props안에 onClick은 이벤트 리스너 아님!! **<u>props 이름일 뿐.</u>**  여기선 헷갈리지 않게 changeValue라는 이름의 props로 보내줌.
+
+```react
+  <script type="text/babel">
+    function Btn({ text, changeValue }) {  //onClick
+      return (
+      <button 
+        onClick={changeValue}  //onClick={onClick}
+        style={{
+          //...
+        }}>{text}</button>
+      )
+    }
+    function App() {
+      const [value, setValue] = React.useState("Save Changes")
+      const changeValue = () => setValue("Revert Changes")
+      return (
+        <div>
+          <Btn text={value} changeValue={changeValue} />  //onClick={changeValue}
+          <Btn text="Continue"/>
+        </div>
+      );
+    } 
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root)
+  </script>
+```
+
+  **props로서 하위 컴포넌트에 넣는다고 해도, 자동으로 return 안에 들어가는 것 아님!!! 항상 {}이나 props로 불러와서 써야 함.** 왜냐면 항상 button만 있는 것 아니기 때문에 우리가 어디다 써야 할 지 결정해야함.
+
+**부모의 상태를 바꾸는 함수를 실행하는데, 자식이 실행함!!!** 
+
+
+
+### React Memo
+
+props가 변경되면 모든 component가 re-rendering됨.
+
+<u>props가 변경되지 않는다고 하면</u> re-rendering 안 하게끔 memo 할 수 있음
+
+1. `const MemorizedBtn = React.memo(Btn)` 생성 후 
+
+2. Btn 컴포넌트를 MemorizedBtn으로 대체
+
+   `      <MemorizedBtn text={value} changeValue={changeValue} /> `
+
+   `<MemorizedBtn text="Continue"/>`
+
+```react
+  <script type="text/babel">
+    function Btn({ text, changeValue }) {
+      console.log(text, "was rendered")
+      return (
+      <button 
+        onClick={changeValue}  
+        style={{
+          backgroundColor: "tomato",
+          color:"white",
+          padding:"10px 20px",
+          border: 0,
+          borderRadius: 10,
+        }}>{text}</button>
+      )
+    }
+    const MemorizedBtn = React.memo(Btn)
+    function App() {
+      const [value, setValue] = React.useState("Save Changes")
+      const changeValue = () => setValue("Revert Changes")
+      return (
+        <div>
+          <MemorizedBtn text={value} changeValue={changeValue} />
+          <MemorizedBtn text="Continue"/>
+        </div>
+      );
+    } 
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root)
+  </script>
+```
+
+
+
+
+
+## 4.2 Prop Types
+
+props를 잘못 보내줄 가능성이 있음.
+
+```react
+        <div>
+          <Btn text="Save Changes" fontSize={18}/>
+          <Btn text={14} fontSize={"Continue"}/>
+        </div>
+```
+
+
+
+1. cdn 추가 : `<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.7.2/prop-types.js"></script>`
+
+   1.  안되면 https://unpkg.com/react@17.0.2/umd/react.production.min.js -> https://unpkg.com/react@17.0.2/umd/react.development.js 로 변경
+
+2. props 타입 정의
+
+   ```react
+       Btn.propTypes = {
+         text: PropTypes.string,
+         fontSize: PropTypes.number,
+       }
+   ```
+
+3. console에 다음과 같은 경고창 뜸
+
+   ```
+   Warning: Failed prop type: Invalid prop `text` of type `number` supplied to `Btn`, expected `string`.
+       at Btn (<anonymous>:4:19)
+       at App
+   ```
+
+4. optional 아니고 꼭 필요하면 isRequired 쓰면 됨.
+
+   ```
+       Btn.propTypes = {
+         text: PropTypes.string.isRequired,
+         fontSize: PropTypes.number,
+       }
+
+
+   ```
+
+5. 정의되지 않은 변수에 대한 default 값 지정할 수 있음.(javascript 문법)
+
+   `function Btn({ text, fontSize= 14 })`
+
+   ```react
+     <script type="text/babel">
+       function Btn({ text, fontSize= 14 }) {
+         return (
+         <button 
+           style={{
+             //...
+             fontSize: fontSize,
+           }}>{text}</button>
+         )
+       }
+       Btn.propTypes = {
+         text: PropTypes.string,
+         fontSize: PropTypes.number,
+       }
+       function App() {
+         return (
+           <div>
+             <Btn text="Save Changes" fontSize={18}/>
+             <Btn text="Confirm Changes"/>
+           </div>
+         );
+       } 
+       const root = document.getElementById("root");
+       ReactDOM.render(<App />, root)
+     </script>
+   ```
+
+   ​
+
