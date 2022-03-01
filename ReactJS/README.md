@@ -647,7 +647,8 @@ select 함수
 ```
 
 
-# PROPS
+
+# 4. PROPS
 
 ## 4.0 Props
 
@@ -908,6 +909,7 @@ props를 잘못 보내줄 가능성이 있음.
          text: PropTypes.string.isRequired,
          fontSize: PropTypes.number,
        }
+   ```
 
 
    ```
@@ -946,3 +948,192 @@ props를 잘못 보내줄 가능성이 있음.
 
    ​
 
+# 5. CREATE REACT APP
+
+## 5.0 Introduction
+
+1. Node JS 설치 후 cmd에서 `node -v` 로 설치 확인
+
+2. `npx`  도 실행되는지 확인
+
+3. 원하는 폴더 위치에서 `npx create-react-app react-for-biginners` 로 app 생성
+
+4. vs code 열고 확인. 
+
+5. package.json 에서 scripts 확인.
+
+6. start script 실행 : vs code terminal에서 `npm start` 치면 react app 실행됨.
+
+7. App.js
+
+   ```javascript
+   function App() {
+     return (
+       <div>
+           <h1>Welcome back!</h1>
+       </div>
+     );
+   }
+
+   export default App;
+
+   ```
+
+8. Index.js
+
+   ```javascript
+   import React from 'react';
+   import ReactDOM from 'react-dom';
+   import App from './App';
+
+   ReactDOM.render(
+     <React.StrictMode>
+       <App />
+     </React.StrictMode>,
+     document.getElementById('root')
+   );
+   ```
+
+   ​
+
+## 5.1 Tour of CRA
+
+1. src/Button.js 생성
+
+   ```javascript
+   function Button({ text }) {
+       return <button>{text}</button>;
+   }
+   export default Button;
+   ```
+
+2. App.js에 import
+
+   ```javascript
+   import Button from "./Button";
+
+   function App() {
+     return (
+       <div>
+           <h1>Welcome back!</h1>
+           <Button text={"continue"}/>
+       </div>
+     );
+   }
+
+   export default App;
+   ```
+
+3. `npm i prop-types`설치 후 Button.js에 propTypes 추가
+
+   ```javascript
+   import PropTypes from "prop-types";
+
+   function Button({ text }) {
+       return <button>{text}</button>;
+   }
+
+   Button.propTypes = {
+       text: PropTypes.string.isRequired,
+   }
+   export default Button;
+   ```
+
+4. src/styles.css 만들고, index.js에 import
+
+   ```css
+   button {
+     color: white;
+     background-color: tomato;
+   }
+   ```
+
+   ```javascript
+   // index.js
+   import "./styles.css";
+   ```
+
+### global css style을 원하지 않는다면
+
+1. style을 직접 넣는 방법
+
+   ```javascript
+   import PropTypes from "prop-types";
+
+   function Button({ text }) {
+       return (
+       <button
+           style={{
+               backgroundColor: "tomato",
+               color: "white",
+           }}
+       >{text}</button>
+       )
+   }
+
+   Button.propTypes = {
+       text: PropTypes.string.isRequired,
+   }
+   export default Button;
+
+   ```
+
+2. styles.css ->Button.module.css로 파일명 변경
+
+   1. button -> .btn으로 변경
+
+      ```css
+      .btn {
+        color: white;
+        background-color: tomato;
+      }
+      ```
+
+   2. Button.js에서 해당 css import하고, className 줌
+
+      ```javascript
+      import PropTypes from "prop-types";
+      import styles from "./Button.module.css"
+      function Button({ text }) {
+          return (
+          <button className={styles.btn}>{text}</button>
+          )
+      }
+
+      Button.propTypes = {
+          text: PropTypes.string.isRequired,
+      }
+      export default Button;
+
+      ```
+
+3. 한번 더 연습 
+
+   1. src/App.module.css 생성
+
+      ```css
+      .title {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 18px;
+      }
+      ```
+
+   2. App.js에서 css import하고 className 적용
+
+      ```javascript
+      import Button from "./Button";
+      import styles from "./App.module.css"
+
+      function App() {
+        return (
+          <div>
+              <h1 className={styles.title}>Welcome back!!!!</h1>
+              <Button text={"continue"}/>
+          </div>
+        );
+      }
+
+      export default App;
+      ```
+
+      ​
