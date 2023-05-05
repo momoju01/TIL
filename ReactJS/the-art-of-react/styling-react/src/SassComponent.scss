@@ -1,9 +1,14 @@
 /* SassComponent.scss */
 
-@import "./styles/utils";
+// @import "./styles/utils"; //yarn eject 설정 전
+// @import "utils.scss";     // additionalData 설정 전
 
 .SassComponent {
   display: flex;
+  background: $oc-gray-2;
+  @include media('<768px') {
+    background: $oc-gray-9;
+  }
   .box {
     /* 일반 CSS에서는 .SassComponent .box와 마찬가지 */
     background: red;
